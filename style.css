@@ -87,3 +87,9 @@
   position: relative;
   border-color: darkslateblue;
 }
+.list li.correct .item {
+  border-color: chartreuse;
+}
+.list li.incorrect .item {
+  border-color: brown;
+}
