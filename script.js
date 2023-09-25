@@ -13,7 +13,11 @@ function init() {
 }
 
 function createList() {
-    anwserArr.forEach((item, index) => {
+    [...anwserArr]
+    .map(a => ({ value: a, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(a => a.value)
+    .forEach((item, index) => {
         const listItem = document.createElement('li');
 
         listItem.setAttribute('id', index);
@@ -35,8 +39,13 @@ function createList() {
 }
 
 function loadList() {
-    fromStore()
-    storeItems.forEach((item, index) => {
+    fromStore();
+
+    [...storeItems]
+    .map(a => ({ value: a, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(a => a.value)
+    .forEach((item, index) => {
         const listItem = document.createElement('li');
         listItem.setAttribute('id', index);
         listItem.innerHTML = `
@@ -55,7 +64,6 @@ function toStore() {
 
 function fromStore() {
     storeItems = JSON.parse(localStorage.getItem('data1'));
-    console.log(storeItems)
 }
 
 function dragStart() {
@@ -101,9 +109,10 @@ function checkAnwser() {
         const itemName = item.querySelector('.item').innerText.trim();
 
         if (itemName !== anwserArr[index]) {
-            console.log('err');
+            item.classList.add('incorrect')
         } else {
-            console.log('done');
+            item.classList.remove('incorrect')
+            item.classList.add('correct')
         }
     });
 }
