@@ -21,7 +21,6 @@ function createList() {
         const listItem = document.createElement('li');
 
         listItem.setAttribute('id', index);
-
         listItem.innerHTML = `
     <span class="number">${index + 1}</span>
     <div class="item" draggable="true">${item}</div>
@@ -55,6 +54,7 @@ function loadList() {
         listItems.push(listItem);
         list.appendChild(listItem);
     });
+
     addEventListeners()
 }
 
