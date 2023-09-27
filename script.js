@@ -1,5 +1,5 @@
 // dran&drop 1
-const anwserArr = ['some1', 'some2', 'some3', 'some4'];
+const anwserArr = ['some1', 'some2', 'some3', 'some4']; //Ответы в правильном порядке
 
 const list = document.getElementById('list');
 let storeItems = [];

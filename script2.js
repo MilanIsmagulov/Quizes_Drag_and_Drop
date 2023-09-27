@@ -1,14 +1,20 @@
 // dran&drop 2
-const anwserArr2 = ['some1', 'some2', 'some3', 'some4'];
-const countCol = 2;
-// document.querySelectorAll('.item2').forEach((n, i) => (n.textContent = anwserArr2[i]));
+const anwserArr2 = ['some1', 'some2', 'some3', 'some4']; //Ответы
+const countCol = 3; //Колличесвто колонн
+const correctAnwser1 = ['some1', 'some3'] //Правильные варианты. Кол-во масивов в соотвествиие с кол-ом колонн
+const correctAnwser2 = ['some4'] //correctAnwser1 - 1 колонна и т.д.
+const correctAnwser3 = ['some2']
+const correctAnwsers = [
+    correctAnwser1, 
+    correctAnwser2,
+    correctAnwser3
+] //Сюда надо тоже добавить
 
 const collumns = document.getElementById('columns')
 const row = document.getElementById('row')
 
 let areaIndex;
 let startIndex;
-let listItems2 = []
 let dragElem = null;
 let rowArr = []
 
@@ -139,6 +145,41 @@ function refreshData(s, e) {
     data[s] = data[s].filter((i) => i !== dragElem.innerText)
 
     localStorage.setItem('data2', JSON.stringify(data))
+}
+
+function searchElem(elem, index, arr) {
+    arr.sort()
+    correctAnwsers.map((item, i) => {
+        item.sort()
+        if (JSON.stringify(arr) === JSON.stringify(item)) {
+            console.log(true)
+        } else console.log(arr, item)
+    })
+}
+
+function checkAnwser2() {
+    fromStore2();
+
+    const convertedArr = Object.entries(data)
+
+    convertedArr.map((item, index) => {
+        item.splice(0, 1)
+        item.map((item2, index2) => {
+            const tempArr = item2.sort()
+            correctAnwsers.map((item3, index3) => {
+                const tempArr2 = item3.sort()
+                const resCol = document.querySelectorAll(`.col-ul[index="${index3}"]`)
+                resCol.forEach((el) => {
+                    if (index === index3 && JSON.stringify(tempArr) === JSON.stringify(tempArr2)) {
+                        el.parentElement.classList.remove('incorrect')
+                        el.parentElement.classList.add('correct')
+                    } else if (index === index3 && JSON.stringify(tempArr) !== JSON.stringify(tempArr2)) {
+                        el.parentElement.classList.add('incorrect')
+                    }
+                })
+            })
+        })
+    })
 }
 
 function addEventListeners2() {
