@@ -31,7 +31,7 @@
   border: 2px solid slateblue;
   padding: 4px;
 }
-.item, .item2 {
+.item, .item2, .item3 {
   list-style-image: none;
   margin: 10px;
   border: 2px solid fuchsia;
@@ -67,6 +67,13 @@
   border: 2px solid slateblue;
   border-radius: 4px;
 }
+.col.correct {
+  border-color: chartreuse;
+}
+.col.incorrect {
+  border-color: brown;
+}
+
 .col-ul {
   height: 100%;
   display: flex;
@@ -93,4 +100,42 @@
 }
 .list li.incorrect .item {
   border-color: brown;
+}
+
+.drag3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.drag-inner {
+  display: flex;
+  align-items: center;
+}
+.img img {
+  max-width: 100%;
+  max-height: 460px;
+  min-height: 100px;
+  min-width: 100px;
+}
+.img {
+}
+.left-col, .right-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.field {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  min-height: 20px;
+  min-width: 90px;
+  max-height: 30px;
+  border: 2px solid slateblue;
+  border-radius: 4px;
+  list-style: none;
 }
