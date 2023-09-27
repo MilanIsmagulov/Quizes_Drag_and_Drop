@@ -147,16 +147,6 @@ function refreshData(s, e) {
     localStorage.setItem('data2', JSON.stringify(data))
 }
 
-function searchElem(elem, index, arr) {
-    arr.sort()
-    correctAnwsers.map((item, i) => {
-        item.sort()
-        if (JSON.stringify(arr) === JSON.stringify(item)) {
-            console.log(true)
-        } else console.log(arr, item)
-    })
-}
-
 function checkAnwser2() {
     fromStore2();
 
