@@ -1,10 +1,15 @@
-const anwserArr3 = ['some1', 'some2', 'some3', 'some4', 'some5', 'some6', 'some7']
+const anwserArr3 = ['some1', 'some2', 'some3', 'some4', 'some5', 'some6', 'some7'];
+// anwserArr3 - элементы соотвествуют ячейке. Слево направо, сверху вниз
+// some1 - 1 кол 1 ячейка, some2 - 1 кол 2 ячейка, some5 - 2 кол 1 ячейка и т. д.
+const pathImg = './03_01.png'; // путь к фотке
 
-const leftColLength = 4
-const rightColLength = 3
+const leftColLength = 4; //кол-во колонн слева
+const rightColLength = 3; //кол-во колонн справа
 
-let leftCol = []
-let rightCol = []
+let leftCol = [];
+let rightCol = [];
+let fullList = [];
+
 let realIndex = 0;
 
 const row2 = document.getElementById('row2')
@@ -12,13 +17,19 @@ const leftColElem = document.getElementById('left-col')
 const rightColElem = document.getElementById('right-col')
 
 let dragElem2;
-let startIndx
+let startIndx;
+let endIndx;
 
 let rowList = [] 
 
+window.onload = () => {
+    calcImg();
+}
+
 createRow()
 createFields()
-calcImg()
+createImg();
+
 
 addEventListeners3();
 
@@ -31,8 +42,21 @@ function calcImg() {
 
 window.addEventListener('resize', calcImg);
 
+function createImg() {
+    const imgOuter = document.getElementById('img');
+    
+    const img = document.createElement('img');
+    img.setAttribute('src', pathImg);
+    img.setAttribute('alt', 'img');
+    imgOuter.appendChild(img);
+}
+
 function createRow() {
-    anwserArr3.forEach((item, index) => {
+    [...anwserArr3]
+    .map(a => ({ value: a, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(a => a.value)
+    .forEach((item, index) => {
         const rowItem = document.createElement('li')
 
         rowItem.setAttribute('id', index)
@@ -65,89 +89,116 @@ function createFields() {
         field.setAttribute('index', realIndex)
         field.classList.add('field')
         
-        
         rightCol.push(field)
         rightColElem.appendChild(field)
 
         realIndex++
     }
+
+    fullList = [...leftCol, ...rightCol]
 }
 
-function startDragBlock2() {
+function dragStart2() {
     dragElem2 = this;
-    this.classList.add('hide');
-    // console.log(this.closest('.field'))
-    if (this.closest('.field').getAttribute('index')) {
+    if (this.parentNode.getAttribute('index') === 'row') {
+        startIndx = this.parentNode.getAttribute('index')
+    } else {
         startIndx = +this.closest('.field').getAttribute('index')
-        console.log(startIndx)
     }
-    // if (this.closest('div').getAttribute('index') === null) {
-    //     startIndex = this.closest('ul').getAttribute('index')
-    // } else  {
-    //     startIndex = this.closest('div').getAttribute('index')
-    // }
 }
-function endDragBlock2() {
-    dragElem2 = null;
-    this.classList.remove('hide');
+
+function dragEnd2() {
+    dragElem2 = null
 }
-function dragColOver2(e) {
+
+function dragEnter2() {
+    this.classList.add('over');
+}
+
+function dragLeave2() {
+    this.classList.remove('over');
+}
+
+function dragOver2(e) {
     e.preventDefault();
-    this.classList.add('hover');
-}
-function dragColEnter2(e) {
-    e.preventDefault();
-    this.classList.add('hover');
-}
-function dragColLeave2() {
-    this.classList.remove('hover');
-}
-function dropColBox2() {
-    this.append(dragElem2);
-    this.classList.remove('hover');
-
-    let endIndex = this.getAttribute('index');
-
-    console.log(startIndx, endIndex)
-
-    swapItems2(startIndx, endIndex);
 }
 
-function swapItems2(start, end) {
-    let itemOne, itemTwo;
-
-    // console.log(fromIndex, toIndex)
-
-    if (start <= leftColLength && end <= leftColLength) {
-        // console.log(leftCol)
-        itemOne = leftCol[start].querySelector('.item3');
-        itemTwo = leftCol[end].querySelector('.item3');
-        console.log(itemOne, itemTwo)
-
-        leftCol[start].appendChild(itemTwo);
-        leftCol[end].appendChild(itemOne);
+function dragDrop2() {
+    if (this.getAttribute('index') === 'row') {
+        endIndx = this.getAttribute('index');
+    } else {
+        endIndx = +this.getAttribute('index');
     }
+    
+    const indexDragElem = +dragElem2.getAttribute('id')
 
-    // const itemOne = listItems[fromIndex].querySelector('.item3');
-    // const itemTwo = listItems[toIndex].querySelector('.item3');
+    if (startIndx === 'row' && this.childNodes.length === 0) {
+        this.append(dragElem2)
+    } else if (startIndx !== undefined && this.childNodes.length === 0) {
+        this.append(dragElem2)
+    } else if (startIndx === 'row' && this.childNodes.length !== 0) {
+        swap(endIndx, indexDragElem)
+    } else if (startIndx !== undefined && endIndx === 'row') {
+        this.append(dragElem2)
+    } else if (startIndx !== undefined && endIndx !== undefined) {
+        swapItems2(startIndx, endIndx);
+    }
+    this.classList.remove('over');
+}
 
-    // leftCol[fromIndex].appendChild(itemTwo);
-    // leftCol[toIndex].appendChild(itemOne);
+function swap(end, start) {
+    const itemOne = rowList[start]
+    const itemTwo = fullList[end].querySelector('.item3')
+
+    rowList[start].replaceWith(itemTwo)
+    fullList[end].appendChild(itemOne)
+}
+
+function swapItems2(fromIndex, toIndex) {
+    const itemOne = fullList[fromIndex].querySelector('.item3');
+    const itemTwo = fullList[toIndex].querySelector('.item3');
+
+    fullList[fromIndex].appendChild(itemTwo);
+    fullList[toIndex].appendChild(itemOne);
+}
+
+function checkAnwser3() {
+    fullList.forEach((item, index) => {
+        if (item.querySelector('.item3')?.innerText.trim() === undefined) {
+            item.classList.add('incorrect')
+        } else {
+            const itemName = item.querySelector('.item3').innerText.trim();
+
+            if (itemName !== anwserArr3[index]) {
+                item.classList.add('incorrect')
+            } else {
+                item.classList.remove('incorrect')
+                item.classList.add('correct')
+            }
+        }
+    })
 }
 
 function addEventListeners3() {
     const itemElem = document.querySelectorAll('.item3');
     const fieldsElem = document.querySelectorAll('.field');
+    const rowElem = document.querySelectorAll('.row2');
 
     itemElem.forEach((item) => {
         item.draggable = true;
-        item.addEventListener('dragstart', startDragBlock2);
-        item.addEventListener('dragend', endDragBlock2);
+        item.addEventListener('dragstart', dragStart2);
+        item.addEventListener('dragend', dragEnd2);
     });
     fieldsElem.forEach((elem) => {
-        elem.addEventListener('dragover', dragColOver2);
-        elem.addEventListener('dragenter', dragColEnter2);
-        elem.addEventListener('dragleave', dragColLeave2);
-        elem.addEventListener('drop', dropColBox2);
+        elem.addEventListener('dragover', dragOver2);
+        elem.addEventListener('dragenter', dragEnter2);
+        elem.addEventListener('dragleave', dragLeave2);
+        elem.addEventListener('drop', dragDrop2);
     });
+    rowElem.forEach((elem) => {
+        elem.addEventListener('dragover', dragOver2);
+        elem.addEventListener('dragenter', dragEnter2);
+        elem.addEventListener('dragleave', dragLeave2);
+        elem.addEventListener('drop', dragDrop2);
+    })
 }
