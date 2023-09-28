@@ -172,6 +172,35 @@ function checkAnwser2() {
     })
 }
 
+function refreshAnwser2() {
+    const columns = document.querySelectorAll('.col')
+    let lastKey;
+
+    Array.prototype.diff = function(a) {
+        return this.filter(function(i){return a.indexOf(i) < 0;});
+    };
+    
+    for (key in data) {
+        if (!data.hasOwnProperty(Number(key) + 1)) {
+            lastKey = key
+        } else {
+            data[key] = []
+        }
+    }
+
+    anwserArr2.diff(data[`${lastKey}`]).map((item) => {
+        data[`${lastKey}`].push(item)
+    })
+
+    columns.forEach((item, index) => {
+        if (item.querySelector('.item2') !== null) {
+            row.append(item.querySelector('.item2'))
+        }
+    })
+
+    localStorage.setItem('data2', JSON.stringify(data))
+}
+
 function addEventListeners2() {
     const items2 = document.querySelectorAll('.item2');
     const colms = document.querySelectorAll('.col-ul');
