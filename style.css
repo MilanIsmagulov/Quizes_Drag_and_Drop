@@ -33,7 +33,6 @@
 }
 .item, .item2, .item3, .item4 {
   list-style-image: none;
-  margin: 10px;
   border: 2px solid fuchsia;
   padding: 4px;
   border-radius: 4px;
@@ -125,13 +124,8 @@
 }
 
 .field {
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  padding: 10px;
   min-height: 20px;
   min-width: 90px;
-  max-height: 30px;
   border: 2px solid slateblue;
   border-radius: 4px;
   list-style: none;
@@ -171,4 +165,7 @@
 }
 .field.incorrect {
   border-color: brown;
+}
+.none-border {
+  border-color: transparent;
 }

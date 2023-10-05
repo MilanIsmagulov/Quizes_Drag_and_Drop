@@ -134,12 +134,14 @@ function dragDrop2() {
 
     if (startIndx === 'row' && this.childNodes.length === 0) {
         this.append(dragElem2)
+        dragElem2.classList.add('none-border')
     } else if (startIndx !== undefined && this.childNodes.length === 0) {
         this.append(dragElem2)
     } else if (startIndx === 'row' && this.childNodes.length !== 0) {
         swap(endIndx, indexDragElem)
     } else if (startIndx !== undefined && endIndx === 'row') {
         this.append(dragElem2)
+        dragElem2.classList.remove('none-border')
     } else if (startIndx !== undefined && endIndx !== undefined) {
         swapItems2(startIndx, endIndx);
     }
@@ -149,6 +151,9 @@ function dragDrop2() {
 function swap(end, start) {
     const itemOne = rowList[start]
     const itemTwo = fullList[end].querySelector('.item3')
+    
+    itemOne.classList.add('none-border')
+    itemTwo.classList.remove('none-border')
 
     rowList[start].replaceWith(itemTwo)
     fullList[end].appendChild(itemOne)
