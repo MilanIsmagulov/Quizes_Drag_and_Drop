@@ -85,12 +85,14 @@ function dragDrop3() {
 
     if (startIndx2 === 'row2' && this.childNodes.length === 0) {
         this.append(dragElem3)
+        dragElem3.classList.add('none-border')
     } else if (startIndx2 !== undefined && this.childNodes.length === 0) {
         this.append(dragElem3)
     } else if (startIndx2 === 'row2' && this.childNodes.length !== 0) {
         swap2(endIndx2, indexDragElem)
     } else if (startIndx2 !== undefined && endIndx2 === 'row2') {
         this.append(dragElem3)
+        dragElem3.classList.remove('none-border')
     } else if (startIndx2 !== undefined && endIndx2 !== undefined && endIndx2 !== 'row2') {
         swapItems3(startIndx2, endIndx2);
     }
@@ -100,6 +102,9 @@ function dragDrop3() {
 function swap2(end, start) {
     const itemOne = rowList2[start]
     const itemTwo = fullList2[end].querySelector('.item4')
+
+    itemOne.classList.add('none-border')
+    itemTwo.classList.remove('none-border')
 
     rowList2[start].replaceWith(itemTwo)
     fullList2[end].children[1].append(itemOne)

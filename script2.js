@@ -173,12 +173,14 @@ function checkAnwser2() {
 }
 
 function refreshAnwser2() {
-    const columns = document.querySelectorAll('.col')
+    const columns = document.querySelectorAll('.col-ul')
+    const items = document.querySelectorAll('.item2')
     let lastKey;
 
     Array.prototype.diff = function(a) {
         return this.filter(function(i){return a.indexOf(i) < 0;});
     };
+
     
     for (key in data) {
         if (!data.hasOwnProperty(Number(key) + 1)) {
@@ -192,10 +194,8 @@ function refreshAnwser2() {
         data[`${lastKey}`].push(item)
     })
 
-    columns.forEach((item, index) => {
-        if (item.querySelector('.item2') !== null) {
-            row.append(item.querySelector('.item2'))
-        }
+    items.forEach((item, index) => {
+        row.append(item)
     })
 
     localStorage.setItem('data2', JSON.stringify(data))
