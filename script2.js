@@ -199,6 +199,7 @@ function refreshAnwser2() {
     })
 
     localStorage.setItem('data2', JSON.stringify(data))
+    location.reload();
 }
 
 function addEventListeners2() {
