@@ -1,37 +1,15 @@
-const anwserArr3 = ['some1', 'some2', 'some3', 'some4', 'some5', 'some6', 'some7'];
-// anwserArr3 - элементы соотвествуют ячейке. Слево направо, сверху вниз
-// some1 - 1 кол 1 ячейка, some2 - 1 кол 2 ячейка, some5 - 2 кол 1 ячейка и т. д.
-const pathImg = './03_01.png'; // путь к фотке
-
-const leftColLength = 4; //кол-во колонн слева
-const rightColLength = 3; //кол-во колонн справа
-
-let leftCol = [];
-let rightCol = [];
-let fullList = [];
-
-let realIndex = 0;
-
-const row2 = document.getElementById('row2')
-const leftColElem = document.getElementById('left-col')
-const rightColElem = document.getElementById('right-col')
-
-let dragElem2;
-let startIndx;
-let endIndx;
-
-let rowList = [] 
+var el = document.getElementById('row2');
+var field1 = document.getElementById('field1')
+var field2 = document.getElementById('field2')
+var field3 = document.getElementById('field3')
+var field4 = document.getElementById('field4')
+var field5 = document.getElementById('field5')
+var field6 = document.getElementById('field6')
+var field7 = document.getElementById('field7')
 
 window.onload = () => {
     calcImg();
 }
-
-createRow()
-createFields()
-createImg();
-
-
-addEventListeners3();
 
 function calcImg() {
     let heightImg = document.getElementById('img').clientHeight;
@@ -40,170 +18,148 @@ function calcImg() {
     document.getElementById('right-col').style.height = `${heightImg}px`;
 }
 
-window.addEventListener('resize', calcImg);
+var sortable = new Sortable(el, {
+    group: 'shared2',
+	animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1) {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
 
-function createImg() {
-    const imgOuter = document.getElementById('img');
-    
-    const img = document.createElement('img');
-    img.setAttribute('src', pathImg);
-    img.setAttribute('alt', 'img');
-    imgOuter.appendChild(img);
-}
-
-function createRow() {
-    [...anwserArr3]
-    .map(a => ({ value: a, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(a => a.value)
-    .forEach((item, index) => {
-        const rowItem = document.createElement('li')
-
-        rowItem.setAttribute('id', index)
-        rowItem.classList.add('item3')
-        rowItem.draggable = 'true'
-        rowItem.innerText = item
-
-        rowList.push(rowItem)
-        row2.appendChild(rowItem)
-
-    })
-}
-
-function createFields() {
-    for (let i = 0; i < leftColLength; i++) {
-        const field = document.createElement('div')
-        
-        field.setAttribute('index', realIndex)
-        field.classList.add('field')
-        
-        leftCol.push(field)
-        leftColElem.appendChild(field)
-
-        realIndex++
-    }
-
-    for (let i = 0; i < rightColLength; i++) {
-        const field = document.createElement('div')
-        
-        field.setAttribute('index', realIndex)
-        field.classList.add('field')
-        
-        rightCol.push(field)
-        rightColElem.appendChild(field)
-
-        realIndex++
-    }
-
-    fullList = [...leftCol, ...rightCol]
-}
-
-function dragStart2() {
-    dragElem2 = this;
-    if (this.parentNode.getAttribute('index') === 'row') {
-        startIndx = this.parentNode.getAttribute('index')
-    } else {
-        startIndx = +this.closest('.field').getAttribute('index')
-    }
-}
-
-function dragEnd2() {
-    dragElem2 = null
-}
-
-function dragEnter2() {
-    this.classList.add('over');
-}
-
-function dragLeave2() {
-    this.classList.remove('over');
-}
-
-function dragOver2(e) {
-    e.preventDefault();
-}
-
-function dragDrop2() {
-    if (this.getAttribute('index') === 'row') {
-        endIndx = this.getAttribute('index');
-    } else {
-        endIndx = +this.getAttribute('index');
-    }
-    
-    const indexDragElem = +dragElem2.getAttribute('id')
-
-    if (startIndx === 'row' && this.childNodes.length === 0) {
-        this.append(dragElem2)
-        dragElem2.classList.add('none-border')
-    } else if (startIndx !== undefined && this.childNodes.length === 0) {
-        this.append(dragElem2)
-    } else if (startIndx === 'row' && this.childNodes.length !== 0) {
-        swap(endIndx, indexDragElem)
-    } else if (startIndx !== undefined && endIndx === 'row') {
-        this.append(dragElem2)
-        dragElem2.classList.remove('none-border')
-    } else if (startIndx !== undefined && endIndx !== undefined) {
-        swapItems2(startIndx, endIndx);
-    }
-    this.classList.remove('over');
-}
-
-function swap(end, start) {
-    const itemOne = rowList[start]
-    const itemTwo = fullList[end].querySelector('.item3')
-    
-    itemOne.classList.add('none-border')
-    itemTwo.classList.remove('none-border')
-
-    rowList[start].replaceWith(itemTwo)
-    fullList[end].appendChild(itemOne)
-}
-
-function swapItems2(fromIndex, toIndex) {
-    const itemOne = fullList[fromIndex].querySelector('.item3');
-    const itemTwo = fullList[toIndex].querySelector('.item3');
-
-    fullList[fromIndex].appendChild(itemTwo);
-    fullList[toIndex].appendChild(itemOne);
-}
-
-function checkAnwser3() {
-    fullList.forEach((item, index) => {
-        if (item.querySelector('.item3')?.innerText.trim() === undefined) {
-            item.classList.add('incorrect')
-        } else {
-            const itemName = item.querySelector('.item3').innerText.trim();
-
-            if (itemName !== anwserArr3[index]) {
-                item.classList.add('incorrect')
-            } else {
-                item.classList.remove('incorrect')
-                item.classList.add('correct')
-            }
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
         }
-    })
-}
+    }
+});
 
-function addEventListeners3() {
-    const itemElem = document.querySelectorAll('.item3');
-    const fieldsElem = document.querySelectorAll('.field');
-    const rowElem = document.querySelectorAll('.row2');
+var sortableFields1 = new Sortable(field1, {
+    group: 'shared2',
+    animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1 && e.to.getAttribute('id') !== 'row2') {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
 
-    itemElem.forEach((item) => {
-        item.draggable = true;
-        item.addEventListener('dragstart', dragStart2);
-        item.addEventListener('dragend', dragEnd2);
-    });
-    fieldsElem.forEach((elem) => {
-        elem.addEventListener('dragover', dragOver2);
-        elem.addEventListener('dragenter', dragEnter2);
-        elem.addEventListener('dragleave', dragLeave2);
-        elem.addEventListener('drop', dragDrop2);
-    });
-    rowElem.forEach((elem) => {
-        elem.addEventListener('dragover', dragOver2);
-        elem.addEventListener('dragenter', dragEnter2);
-        elem.addEventListener('dragleave', dragLeave2);
-        elem.addEventListener('drop', dragDrop2);
-    })
-}
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
+        }
+    }
+});
+var sortableFields2 = new Sortable(field2, {
+    group: 'shared2',
+    animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1 && e.to.getAttribute('id') !== 'row2') {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
+
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
+        }
+    }
+});
+var sortableFields3 = new Sortable(field3, {
+    group: 'shared2',
+    animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1 && e.to.getAttribute('id') !== 'row2') {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
+
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
+        }
+    }
+});
+var sortableFields4 = new Sortable(field4, {
+    group: 'shared2',
+    animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1 && e.to.getAttribute('id') !== 'row2') {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
+
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
+        }
+    }
+});
+var sortableFields5 = new Sortable(field5, {
+    group: 'shared2',
+    animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1 && e.to.getAttribute('id') !== 'row2') {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
+
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
+        }
+    }
+});
+var sortableFields6 = new Sortable(field6, {
+    group: 'shared2',
+    animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1 && e.to.getAttribute('id') !== 'row2') {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
+
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
+        }
+    }
+});
+var sortableFields7 = new Sortable(field7, {
+    group: 'shared2',
+    animation: 150,
+    onEnd: function(e) {
+        var elem = e.item
+        var parent = elem.parentNode
+        if (elem.parentNode.getAttribute('id') !== 'row2' && parent.childNodes.length > 1 && e.to.getAttribute('id') !== 'row2') {
+            var childrens = e.to.children;
+            var lastElem
+            [...childrens].forEach((el) => {
+                elem !== el ? lastElem = el : ''
+            })
+
+            lastElem.replaceWith(elem)
+            e.from.appendChild(lastElem)
+        }
+    }
+});
