@@ -1,38 +1,129 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
-    <script src="script2.js" defer></script>
-    <script src="script3.js" defer></script>
+    <script type="module" src="script.js"></script>
+    <script type="module" src="script2.js"></script>
+    <script type="module" src="script3.js"></script>
+    <script type="module" src="script4.js"></script>
+    <script type="module" src="script5.js"></script>
+    <script src="check.js"></script>
   </head>
 
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
     <div class="body-inner">
       <div class="drag1">
-        <ul class="list" id="list"></ul>
-        <button onclick="checkAnwser()">Check</button>
+        <ul id="items">
+          <li class="item1">some1</li>
+          <li class="item1">some2</li>
+          <li class="item1">some3</li>
+          <li class="item1">some4</li>
+        </ul>
+        <button onclick="checkAnwser1()">check</button>
       </div>
 
       <div class="drag2">
-        <div class="columns" id="columns"></div>
-        <div class="row" id="row"></div>
+        <div class="columns" id="columns">
+          <ul id="col1" class="col-ul"></ul>
+          <ul id="col2" class="col-ul"></ul>
+        </div>
+        <ul id="row" class="row">
+          <li>some1</li>
+          <li>some2</li>
+          <li>some3</li>
+          <li>some4</li>
+        </ul>
         <button onclick="checkAnwser2()">check</button>
-        <button onclick="refreshAnwser2()">refresh</button>
       </div>
 
       <div class="drag3">
         <div class="drag-inner">
-          <div class="left-col" id="left-col"></div>
-          <div class="img" id="img"></div>
-          <div class="right-col" id="right-col"></div>
+          <div class="left-col drag3-col" id="left-col">
+            <div class="field" id="field1"></div>
+            <div class="field" id="field2"></div>
+            <div class="field" id="field3"></div>
+            <div class="field" id="field4"></div>
+          </div>
+          <div class="img" id="img">
+            <img src="./03_01.png" />
+          </div>
+          <div class="right-col drag3-col" id="right-col">
+            <div class="field" id="field5"></div>
+            <div class="field" id="field6"></div>
+            <div class="field" id="field7"></div>
+          </div>
         </div>
-        <div class="row2" id="row2" index="row"></div>
+        <ul id="row2" class="row">
+          <li>some1</li>
+          <li>some2</li>
+          <li>some3</li>
+          <li>some4</li>
+          <li>some5</li>
+          <li>some6</li>
+          <li>some7</li>
+        </ul>
         <button onclick="checkAnwser3()">check</button>
       </div>
+
+      <div class="drag4">
+        <div class="drag4-inner" id="drag4-inner">
+          <div class="field-col">
+            <img class="img-col" src="./03_01.png" />
+            <div class="field" id="fieldCol1"></div>
+          </div>
+          <div class="field-col">
+            <img class="img-col" src="./03_01.png" />
+            <div class="field" id="fieldCol2"></div>
+          </div>
+          <div class="field-col">
+            <img class="img-col" src="./03_01.png" />
+            <div class="field" id="fieldCol3"></div>
+          </div>
+          <div class="field-col">
+            <img class="img-col" src="./03_01.png" />
+            <div class="field" id="fieldCol4"></div>
+          </div>
+        </div>
+        <ul id="row3" class="row">
+          <li>some1</li>
+          <li>some2</li>
+          <li>some3</li>
+          <li>some4</li>
+        </ul>
+        <button onclick="checkAnwser4()">check</button>
+      </div>
+
+      <div class="drag1">
+        <ul class="list" id="list">
+          <li>
+            <div class="number">fjdklf</div>
+            <div class="list-item" id="list-item1">
+              <div class="item2">some1</div>
+              <div class="item2">some2</div>
+            </div>
+          </li>
+          <li>
+            <div class="number">kjjkjk</div>
+            <div class="list-item" id="list-item2">
+              <div class="item2">some3</div>
+            </div>
+          </li>
+          <li>
+            <div class="number">cxzcxz</div>
+            <div class="list-item" id="list-item3">
+              <div class="item2">some4</div>
+            </div>
+          </li>
+        </ul>
+        <button onclick="checkAnwser5()">Check</button>
+      </div>
+
     </div>
+
+  
   </body>
 </html>
